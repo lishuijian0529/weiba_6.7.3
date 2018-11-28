@@ -92,7 +92,7 @@ def qd():
     device_list = select_device()
     win = tk.Tk()
     win.iconbitmap('1.ico')
-    win.title("火箭注册v3.7.1.1")  # 在这里修改窗口的标题
+    win.title("火箭注册v3.7.1.2")  # 在这里修改窗口的标题
     ttk.Label(win, text='已连接设备:%s' %device_list, anchor='c').grid(row=1)
     ttk.Label(win, text='', anchor='c').grid(row=2)
     ttk.Label(win, text='本程序仅供技术交流、请勿用于商业或非法用途', anchor='c').grid(row=3)

@@ -104,6 +104,8 @@ class login_wechat():
                 return None
             if '注册了新的微信号' in self.cw.encode('utf-8'):
                 return 'newwechat'
+            if '账号状态异常' in self.cw.encode('utf-8'):
+                return 'zhuangtaiyichang'
 
     def mm_login(self, ph, mm):
         time.sleep(10)
@@ -168,12 +170,8 @@ class login_wechat():
                 if self.driver.find_elements_by_id(self.element_json[u'错误弹窗内容ID'])!=[]:
                     self.cw = self.driver.find_element_by_id(self.element_json[u'错误弹窗内容ID']).get_attribute(('text'))
                     return self.error_message()
-            self.driver.press_keycode(3)
-            time.sleep(1)
-            os.popen('adb -s %s shell am start -n com.tencent.mm/.ui.LauncherUI' % self.deviceid).read()
-            time.sleep(5)
-            #if 'com.tencent.mm' not in os.popen('adb -s %s shell dumpsys activity | findstr "mFocusedActivity"'%self.deviceid).read():
-            #    os.popen('adb -s %s shell am start -n com.tencent.mm/.ui.LauncherUI' % self.deviceid).read()
+            if 'com.tencent.mm' not in os.popen('adb -s %s shell dumpsys activity | findstr "mFocusedActivity"'%self.deviceid).read():
+                os.popen('adb -s %s shell am start -n com.tencent.mm/.ui.LauncherUI' % self.deviceid).read()
 
     def Home_Login(self,ph,mm):
         self.driver.implicitly_wait(10)
@@ -288,7 +286,8 @@ class login_wechat():
             file().write( '%s %s %s %s 解封环境异常 %s\n' % (wechat_list[0], wechat_list[1], self.ip, self.date, self.deviceid), '登录异常账号.txt')
         if error == 'newwechat':
             file().write('%s %s %s %s 注册了新的微信号 %s\n' % (wechat_list[0], wechat_list[1], self.ip, self.date, self.deviceid),'登录异常账号.txt')
-
+        if error == 'zhuangtaiyichang':
+            file().write('%s %s %s %s 账号状态异常 %s\n' % (wechat_list[0], wechat_list[1], self.ip, self.date, self.deviceid),'登录异常账号.txt')
     def add_friend(self, zh, mm, hy):
         time.sleep(10)
         self.driver.implicitly_wait(2)
