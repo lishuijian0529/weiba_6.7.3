@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Run.py'],
-             pathex=['D:\\appium-6.7.3'],
+             pathex=['D:\\weiba_6.7.3'],
              binaries=[],
              datas=[],
              hiddenimports=[],

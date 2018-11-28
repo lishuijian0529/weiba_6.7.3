@@ -106,7 +106,7 @@ class login_wechat():
                 return 'newwechat'
 
     def mm_login(self, ph, mm):
-        time.sleep(10)
+        time.sleep(20)
         self.driver.implicitly_wait(2)
         while True:
             #如果出现输入框
