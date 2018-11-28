@@ -106,7 +106,7 @@ class login_wechat():
                 return 'newwechat'
 
     def mm_login(self, ph, mm):
-        time.sleep(20)
+        time.sleep(10)
         self.driver.implicitly_wait(2)
         while True:
             #如果出现输入框
@@ -131,6 +131,7 @@ class login_wechat():
                         return self.error_message()
             #如果出现错误弹窗
             if self.driver.find_elements_by_id(self.element_json[u'错误弹窗内容ID'])!=[]:
+                logging.info(u'%s-出现错误弹窗'%self.deviceid)
                 self.cw = self.driver.find_element_by_id(self.element_json[u'错误弹窗内容ID']).get_attribute(('text'))
                 if '表情' in self.cw.encode('utf-8'):
                     self.driver.find_element_by_name('　取消　').click()
@@ -167,8 +168,12 @@ class login_wechat():
                 if self.driver.find_elements_by_id(self.element_json[u'错误弹窗内容ID'])!=[]:
                     self.cw = self.driver.find_element_by_id(self.element_json[u'错误弹窗内容ID']).get_attribute(('text'))
                     return self.error_message()
-            if 'com.tencent.mm' not in os.popen('adb -s %s shell dumpsys activity | findstr "mFocusedActivity"'%self.deviceid).read():
-                os.popen('adb -s %s shell am start -n com.tencent.mm/.ui.LauncherUI' % self.deviceid).read()
+            self.driver.press_keycode(3)
+            time.sleep(1)
+            os.popen('adb -s %s shell am start -n com.tencent.mm/.ui.LauncherUI' % self.deviceid).read()
+            time.sleep(5)
+            #if 'com.tencent.mm' not in os.popen('adb -s %s shell dumpsys activity | findstr "mFocusedActivity"'%self.deviceid).read():
+            #    os.popen('adb -s %s shell am start -n com.tencent.mm/.ui.LauncherUI' % self.deviceid).read()
 
     def Home_Login(self,ph,mm):
         self.driver.implicitly_wait(10)
